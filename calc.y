@@ -3,6 +3,9 @@
 #include <stdio.h>
 extern int yylineno;
 
+int yylex();
+int yyerror(char *s);
+
 %}
 
 %token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_NUM TOK_PRINT TOK_FLOAT
