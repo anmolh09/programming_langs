@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calc</title>
+</head>
+<body>
+    <center>
+    <table>
+        <tr><input type="text" id="value"/></tr>
+        <tr>
+            <td><button type="button" id="on"> on </button></td>
+            <td><button type="button" id="off"> off </button></td>
+            <td><button type="button" id="0" onclick="appendValue(this.id)"> 0 </button></td>
+            <td><button type="button" id="1" onclick="appendValue(this.id)"> 1 </button></td>
+        </tr>
+        <tr>
+            <td><button type="button" id="2" onclick="appendValue(this.id)"> 2 </button></td>
+            <td><button type="button" id="3" onclick="appendValue(this.id)"> 3 </button></td>
+            <td><button type="button" id="4" onclick="appendValue(this.id)"> 4 </button></td>
+            <td><button type="button" id="5" onclick="appendValue(this.id)"> 5 </button></td>
+        </tr>
+        <tr>
+            <td><button type="button" id="+" onclick="appendValue(this.id)"> + </button></td>
+            <td><button type="button" id="-" onclick="appendValue(this.id)"> - </button></td>
+            <td><button type="button" id="*" onclick="appendValue(this.id)"> * </button></td>
+            <td><button type="button" id="/" onclick="appendValue(this.id)"> / </button></td>
+        </tr>
+        <tr>
+            <td><button type="button" id="=" onclick="calculate()"> = </button></td>
+            <td><button type="button" id="clear" onclick="setValue('0')"> clear </button></td>
+        </tr>
+    </table>
+    </center>
+</body>
+<script>
+    setValue = (text) => {
+        document.getElementById("value").value = text;
+    }
+
+    appendValue = (text) => {
+        if(isOn){
+            if(document.getElementById("value").value == "0")
+                document.getElementById("value").value = text;
+            else
+                document.getElementById("value").value += text;
+        }
+    }
+
+    calculate = () => {
+        let expression = document.getElementById("value").value;
+        let operators = new Set(["+","-","*","/"]);
+        let stack = [];
+        for(const e of expression){
+            if(operators.has(e)){
+                let e2 = Number(stack.pop())
+                let e1 = Number(stack.pop())
+                let result ;
+                switch (e){
+                    case "+":
+                        result = e1 + e2;
+                        break
+                    case "-":
+                        result = e1 - e2
+                        break
+                    case "*":
+                        result = e1 * e2
+                        break
+                    case "/":
+                        result = e1 / e2
+                        break
+                }
+                if(isNaN(result)){
+                    alert('invalid expression!!')
+                    setValue("0")
+                    break;
+                }
+                else{
+                    stack.push(result)
+                    setValue(result)
+                }
+            }
+            else stack.push(e)
+        }
+
+
+    }
+
+    let isOn = false;
+    document.getElementById("on").addEventListener("click", () => {
+        setValue("0")
+        isOn = true
+    })
+    document.getElementById("off").addEventListener("click", () => {
+        setValue("")
+        isOn = false
+    })
+
+
+
+
+</script>
+</html>
